@@ -3,63 +3,28 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                echo "Building code using Maven..."
+                echo "Building ..."
                 
             }
+            post {
+                always {
+                    mail to: "ahad1487281999@gmail.com",
+                    subject: "Build Status Email",
+                    body: "Build log attached!"
+                }
+            }
         }
-        stage("Unit and Integration Tests") {
+        stage("Test") {
             steps {
-                echo "Running unit tests..."
-                
-                echo "Running integration tests..."
+                echo "Testing ..."
                 
             }
         }
-        stage("Code Analysis") {
+        stage("Deploy") {
             steps {
-                echo "Running code analysis with SonarQube..."
+                echo "Deploying ..."
                 
             }
-        }
-        stage("Security Scan") {
-            steps {
-                echo "Performing security scan with OWASP ZAP..."
-                
-            }
-        }
-        stage("Deploy to Staging") {
-            steps {
-                echo "Deploying to staging server (AWS EC2 instance)..."
-                
-            }
-        }
-        stage("Integration Tests on Staging") {
-            steps {
-                echo "Running integration tests on staging environment..."
-                
-            }
-        }
-        stage("Deploy to Production") {
-            steps {
-                echo "Deploying to production server (AWS EC2 instance)..."
-                
-            }
-        }
-    }
-    post {
-        success {
-            echo "Pipeline completed successfully!"
-            mail to: "ahad1487281999@gmail.com",
-            subject: "Pipeline Status - Success",
-            body: "The pipeline completed successfully. Check attached logs for details.",
-            attachmentsPattern: "**/*"
-        }
-        failure {
-            echo "Pipeline failed :("
-            mail to: "ahad1487281999@gmail.com",
-            subject: "Pipeline Status - Failure",
-            body: "The pipeline failed. Check attached logs for details.",
-            attachmentsPattern: "**/*"
         }
     }
 }
